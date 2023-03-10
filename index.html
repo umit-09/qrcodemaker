@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2f3640;
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-top: 50px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        label {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            height: 40px;
+            border-radius: 5px;
+            border: none;
+            background-color: #fff;
+            padding: 5px;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+        }
+
+        button[type="submit"] {
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e67e22;
+        }
+
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 50px;
+            width: 100%;
+            height: calc(100% - 200px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        #qrcode canvas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.7;
+            animation: qr-code-animation 5s ease-in-out infinite;
+        }
+
+        @keyframes qr-code-animation {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Media query for screens smaller than 768px (e.g. mobile phones) */
+        @media (max-width: 767px) {
+            h1 {
+                margin-top: 20px;
+                font-size: 24px;
+            }
+            input[type="text"] {
+                width: 80%;
+                max-width: 300px;
+            }
+            button[type="submit"] {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>QR Code Generator</h1>
+    <form onsubmit="generateQRCode(event)">
+        <label for="qrcodedata">Enter text to generate QR code:</label>
+        <input type="text" name="name" id="qrcodedata" placeholder="Enter text here"/>
+        <button type="submit">Generate QR code</button>
+    </form>
+    <div id="qrcode"></div>
+
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script type="text/javascript">
+        function generateQRCode(event) {
+            event.preventDefault();
+            var qrtext = document.getElementById("qrcodedata").value;
+            if (qrtext.trim() === "") {
+                alert("Please enter text to generate QR code.");
+                return;
+            }
+            var qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = "";
+            var qrcode = new QRCode(qrcodeContainer, {
+                text: qrtext,
+                width: 300,
+                height: 300,
+                colorDark : "#000",
+                colorLight : "#f2f2f2",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        }
+    </script>
+</body>
+</html>
